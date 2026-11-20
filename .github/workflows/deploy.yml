@@ -1,0 +1,38 @@
+name: Deploy Ayutthaya five-stage playtest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout approved five-stage game from original repository
+        uses: actions/checkout@v4
+        with:
+          repository: kkamonsri478209-beep/ayutthaya-game-development
+          ref: five-stage-approved-content-20261120
+          persist-credentials: false
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload complete game and assets
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
