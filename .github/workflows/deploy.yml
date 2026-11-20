@@ -1,4 +1,5 @@
 name: Deploy Ayutthaya five-stage playtest
+# Refresh original game interface with approved five-stage content (2026-11-20)
 
 on:
   workflow_dispatch:
